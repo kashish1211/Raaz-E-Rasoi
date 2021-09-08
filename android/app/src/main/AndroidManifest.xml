@@ -1,8 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.raaz_e_rasoi">
    <application
-        android:label="raaz_e_rasoi"
-        android:icon="@mipmap/ic_launcher">
+        android:label="Raaz-E-Rasoi"
+        android:icon="@mipmap/launcher_icon">
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
