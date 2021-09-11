@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 
 class Navbar extends StatelessWidget {
   final bool detail;
+  final bool list;
 
-  Navbar(this.detail);
+  Navbar(this.detail, this.list);
 
   @override
   Widget build(BuildContext context) {
@@ -20,12 +21,13 @@ class Navbar extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            IconButton(
-              onPressed: () => {},
-              icon: Icon(
-                Icons.arrow_back_ios_new,
+            if (!list)
+              IconButton(
+                onPressed: () => {},
+                icon: Icon(
+                  Icons.arrow_back_ios_new,
+                ),
               ),
-            ),
             if (detail)
               IconButton(
                 onPressed: () => {},
@@ -33,6 +35,13 @@ class Navbar extends StatelessWidget {
                   Icons.favorite_outline,
                 ),
               ),
+            if (list)
+              IconButton(
+                  onPressed: () => {},
+                  icon: Icon(
+                    Icons.add,
+                  ),
+                ),
           ],
         ),
       ),

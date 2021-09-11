@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
 
-import './navbar.dart';
+import './bottom_navbar.dart';
 
 class RecipeDetail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     MediaQueryData queryData;
     queryData = MediaQuery.of(context);
-    return Material(
-      child: Container(
+    return Scaffold(
+      body: Container(
         decoration: BoxDecoration(
           color: Colors.white,
         ),
         child: Column(
           children: [
-            Navbar(true),
             Container(
+              padding: EdgeInsets.only(top: queryData.size.height * 0.07),
               child: Column(
                 children: [
                   Center(
@@ -134,6 +134,7 @@ class RecipeDetail extends StatelessWidget {
           ],
         ),
       ),
+      bottomNavigationBar: BottomNavbar(),
     );
   }
 }
