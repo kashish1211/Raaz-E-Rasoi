@@ -1,7 +1,6 @@
-import 'package:flappy_search_bar/flappy_search_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:raaz_e_rasoi/widgets/search.dart';
 import './bottom_navbar.dart';
+import './recipe_list_container.dart';
 
 class RecipeList extends StatelessWidget {
   @override
@@ -13,20 +12,25 @@ class RecipeList extends StatelessWidget {
         width: double.infinity,
         padding: EdgeInsets.only(
           top: queryData.size.height * 0.08,
-          left: queryData.size.width * 0.08,
+          //
         ),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: Color(0xfff2f2f2),
         ),
         child: Column(
           children: [
-            Align(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                "Maa Ka Swaad \nAb Aapke Haath...",
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 34,
+            Padding(
+              padding: EdgeInsets.only(
+                left: queryData.size.width * 0.08,
+              ),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  "Maa Ka Swaad \nAb Aapke Haath...",
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 34,
+                  ),
                 ),
               ),
             ),
@@ -141,6 +145,20 @@ class RecipeList extends StatelessWidget {
                 ),
               ),
             ),
+            SizedBox(height: queryData.size.height * 0.08),
+            Container(
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    RecipeListContainer('grill'),
+                    RecipeListContainer('demodish'),
+                    RecipeListContainer('grill'),
+                  ],
+                ),
+              ),
+            )
           ],
         ),
       ),

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:raaz_e_rasoi/widgets/search.dart';
 
 import './widgets/signup.dart';
 import './widgets/login.dart';

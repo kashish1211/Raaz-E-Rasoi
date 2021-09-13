@@ -6,6 +6,7 @@ class BottomNavbar extends StatelessWidget {
     return BottomNavigationBar(
       currentIndex: 0, // this will be set when a new tab is tapped
       type: BottomNavigationBarType.fixed,
+      selectedItemColor: Color(0xfffa4a0c),
       items: [
         BottomNavigationBarItem(
           icon: new Icon(Icons.home),
