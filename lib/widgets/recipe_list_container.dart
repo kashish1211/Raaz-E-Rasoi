@@ -30,7 +30,7 @@ class RecipeListContainer extends StatelessWidget {
                       offset: Offset(0, 30),
                     ),
                   ],
-                  color: Colors.blue,
+                  color: Colors.white,
                 ),
                 padding: EdgeInsets.only(
                   top: queryData.size.height * 0.1,
@@ -87,32 +87,15 @@ class RecipeListContainer extends StatelessWidget {
                       height: queryData.size.height * 0.35,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        color: Colors.green,
+                        color: Colors.white,
                       ),
                       child: FittedBox(
                         child: Image.asset(
-                          'assets/images/${dish}.png',
+                          'assets/images/$dish.png',
                           fit: BoxFit.fill,
-                          // height: queryData.size.height * 0.5,
                         ),
                       ),
                     ),
-                    // Positioned.fill(
-                    //   child: Align(
-                    //     alignment: Alignment.topLeft,
-                    //     child: Container(
-                    //       margin: EdgeInsets.only(
-                    //           bottom: queryData.size.height * 0.05),
-                    //       width: queryData.size.width * 0.75,
-                    //       height: queryData.size.height * 0.35,
-                    //       child: Image.asset(
-                    //         'assets/images/${dish}.png',
-                    //         fit: BoxFit.fitHeight,
-                    //         // height: queryData.size.height * 0.5,
-                    //       ),
-                    //     ),
-                    //   ),
-                    // ),
                   ],
                 ),
               ),
