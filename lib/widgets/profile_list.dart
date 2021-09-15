@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 
 class ProfileList extends StatelessWidget {
+  List recipes = [
+    ['Tomato Vegiee', 'assets/images/grill.png'],
+    ['Not tomato vegie', 'assets/images/demodish.png']
+  ];
   @override
   Widget build(BuildContext context) {
     MediaQueryData queryData;
@@ -20,7 +24,7 @@ class ProfileList extends StatelessWidget {
               leading: CircleAvatar(
                 backgroundColor: Colors.white,
                 radius: 45,
-                child: Image.asset('assets/images/grill.png'),
+                child: Image.asset(recipes[index][1]),
               ),
               title: Align(
                 alignment: Alignment.center,
@@ -28,7 +32,8 @@ class ProfileList extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      'Tomato Veggie',
+                      recipes[index][0],
+                      textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
@@ -59,6 +64,7 @@ class ProfileList extends StatelessWidget {
           ),
         );
       },
+      itemCount: recipes.length,
     );
   }
 }
