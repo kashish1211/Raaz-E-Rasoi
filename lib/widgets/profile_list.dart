@@ -30,7 +30,7 @@ class ProfileList extends StatelessWidget {
                     Text(
                       'Tomato Veggie',
                       style: TextStyle(
-                        fontSize: 20,
+                        fontSize: 16,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -40,7 +40,7 @@ class ProfileList extends StatelessWidget {
                         "View Recipe",
                         style: TextStyle(
                           color: Color(0xfffa4a0c),
-                          fontSize: 16,
+                          fontSize: 12,
                           fontStyle: FontStyle.italic,
                         ),
                       ),
