@@ -171,10 +171,10 @@ class Profile extends StatelessWidget {
                 ],
               ),
             ),
-            SizedBox(height: queryData.size.height * 0.03),
+            SizedBox(height: queryData.size.height * 0.02),
 
             Container(
-                height: queryData.size.height * 0.4, child: ProfileList()),
+                height: queryData.size.height * 0.43, child: ProfileList()),
           ],
         ),
       ),
