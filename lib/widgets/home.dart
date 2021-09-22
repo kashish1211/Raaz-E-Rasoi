@@ -1,14 +1,31 @@
 import 'package:flutter/material.dart';
-import 'package:raaz_e_rasoi/widgets/profile.dart';
-import 'package:raaz_e_rasoi/widgets/recipe_detail.dart';
-import 'package:raaz_e_rasoi/widgets/recipe_list.dart';
 
-class BottomNavbar extends StatefulWidget {
+import 'package:raaz_e_rasoi/widgets/bottom_navbar.dart';
+import './categories_screen.dart';
+import './landing.dart';
+import './signup.dart';
+import './login.dart';
+import './recipe_detail.dart';
+import './recipe_list.dart';
+import './profile.dart';
+
+class MyHome extends StatelessWidget {
   @override
-  State<BottomNavbar> createState() => _BottomNavbarState();
+  Widget build(BuildContext context) {
+    return const MaterialApp(
+      home: MyStatefulWidget(),
+    );
+  }
 }
 
-class _BottomNavbarState extends State<BottomNavbar> {
+class MyStatefulWidget extends StatefulWidget {
+  const MyStatefulWidget({Key? key}) : super(key: key);
+
+  @override
+  State<MyStatefulWidget> createState() => _MyStatefulWidgetState();
+}
+
+class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   int _selectedIndex = 0;
   static List<Widget> _widgetOptions = <Widget>[
     RecipeList(),

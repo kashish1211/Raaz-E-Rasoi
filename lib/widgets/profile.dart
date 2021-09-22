@@ -16,7 +16,7 @@ class Profile extends StatelessWidget {
             Padding(
               padding: EdgeInsets.only(
                 left: queryData.size.width * 0.08,
-                top: queryData.size.height * 0.08,
+                top: queryData.size.height * 0.07,
               ),
               child: Align(
                 alignment: Alignment.centerLeft,

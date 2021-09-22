@@ -1,9 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:raaz_e_rasoi/widgets/login.dart';
+import 'package:raaz_e_rasoi/widgets/signup.dart';
+import 'package:swipeable_page_route/swipeable_page_route.dart';
 
 class Header extends StatelessWidget {
   final bool login;
 
   Header(this.login);
+
+  void getSignUp(BuildContext ctx) {
+    Navigator.of(ctx).push(SwipeablePageRoute(
+        // canOnlySwipeFromEdge: true,
+        builder: (_) {
+      return Signup();
+    }));
+  }
+
+  void getLogin(BuildContext ctx) {
+    Navigator.of(ctx).push(SwipeablePageRoute(
+        // canOnlySwipeFromEdge: true,
+        builder: (_) {
+      return Login();
+    }));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +69,7 @@ class Header extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   TextButton(
-                    onPressed: () => {},
+                    onPressed: () => getLogin(context),
                     child: Text(
                       'Login',
                       style: TextStyle(
@@ -63,7 +82,7 @@ class Header extends StatelessWidget {
                     ),
                   ),
                   TextButton(
-                    onPressed: () => {},
+                    onPressed: () => getSignUp(context),
                     child: Text(
                       'Sign Up',
                       style: TextStyle(

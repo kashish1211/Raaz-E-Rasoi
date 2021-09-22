@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:raaz_e_rasoi/widgets/home.dart';
 
 import './header.dart';
 
 class Login extends StatelessWidget {
+  void getMyHome(BuildContext ctx) {
+    Navigator.of(ctx).push(MaterialPageRoute(builder: (_) {
+      return MyHome();
+    }));
+  }
+
   @override
   Widget build(BuildContext context) {
     MediaQueryData queryData;
@@ -77,7 +84,7 @@ class Login extends StatelessWidget {
                         borderRadius: BorderRadius.circular(100),
                       ),
                     ),
-                    onPressed: () => {},
+                    onPressed: () => getMyHome(context),
                     child: Text(
                       "Login",
                       style: TextStyle(

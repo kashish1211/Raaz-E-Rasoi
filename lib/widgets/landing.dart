@@ -1,6 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:raaz_e_rasoi/widgets/signup.dart';
 
 class Landing extends StatelessWidget {
+  void getLoginSignup(BuildContext ctx) {
+    Navigator.of(ctx).push(MaterialPageRoute(builder: (_) {
+      return Signup();
+    }));
+  }
+
   @override
   Widget build(BuildContext context) {
     MediaQueryData queryData;
@@ -67,7 +74,7 @@ class Landing extends StatelessWidget {
                   borderRadius: BorderRadius.circular(100),
                 ),
               ),
-              onPressed: () => {},
+              onPressed: () => getLoginSignup(context),
               child: Text(
                 "Bon Appétit",
                 style: TextStyle(

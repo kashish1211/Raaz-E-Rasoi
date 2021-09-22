@@ -252,7 +252,6 @@ class RecipeList extends StatelessWidget {
           ),
         ],
       ),
-      bottomNavigationBar: BottomNavbar(),
     );
   }
 }

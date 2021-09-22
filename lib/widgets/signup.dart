@@ -1,12 +1,20 @@
 import 'package:flutter/material.dart';
 
 import './header.dart';
+import './home.dart';
 
 class Signup extends StatelessWidget {
+  void getMyHome(BuildContext ctx) {
+    Navigator.of(ctx).push(MaterialPageRoute(builder: (_) {
+      return MyHome();
+    }));
+  }
+
   @override
   Widget build(BuildContext context) {
     MediaQueryData queryData;
     queryData = MediaQuery.of(context);
+
     return Material(
       child: Container(
         decoration: BoxDecoration(
@@ -76,7 +84,7 @@ class Signup extends StatelessWidget {
                         borderRadius: BorderRadius.circular(100),
                       ),
                     ),
-                    onPressed: () => {},
+                    onPressed: () => getMyHome(context),
                     child: Text(
                       "Sign up",
                       style: TextStyle(

@@ -134,7 +134,6 @@ class RecipeDetail extends StatelessWidget {
           ],
         ),
       ),
-      bottomNavigationBar: BottomNavbar(),
     );
   }
 }
