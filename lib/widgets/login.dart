@@ -16,12 +16,15 @@ class Login extends StatelessWidget {
     queryData = MediaQuery.of(context);
     return Material(
       child: Container(
+        margin: EdgeInsets.only(top: queryData.size.height * 0.4),
+        height: queryData.size.height * 0.6,
         decoration: BoxDecoration(
           color: Color(0xfff2f2f2),
         ),
         child: ListView(
           children: [
-            Header(true),
+            // Header(),
+
             Container(
               margin: EdgeInsets.symmetric(horizontal: 35),
               padding: EdgeInsets.only(

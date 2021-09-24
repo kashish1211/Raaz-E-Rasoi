@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:raaz_e_rasoi/widgets/header.dart';
+import 'package:raaz_e_rasoi/widgets/login.dart';
 import 'package:raaz_e_rasoi/widgets/signup.dart';
 
 class Landing extends StatelessWidget {
   void getLoginSignup(BuildContext ctx) {
     Navigator.of(ctx).push(MaterialPageRoute(builder: (_) {
-      return Signup();
+      return Header();
     }));
   }
 
