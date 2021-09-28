@@ -1,13 +1,30 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import './bottom_navbar.dart';
+import './dummy.dart';
 import './recipe_list_container.dart';
 
-class RecipeList extends StatelessWidget {
+class RecipeList extends StatefulWidget {
+  @override
+  State<RecipeList> createState() => _RecipeListState();
+}
+
+class _RecipeListState extends State<RecipeList> {
+  var _selectedCategory = 'c1';
+
+  void _onCategoryTap(String id) {
+    setState(() {
+      _selectedCategory = id;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     MediaQueryData queryData;
     queryData = MediaQuery.of(context);
     return Scaffold(
+      backgroundColor: Color(0xfff2f2f2),
       body: ListView(
         children: [
           Container(
@@ -68,168 +85,45 @@ class RecipeList extends StatelessWidget {
                     scrollDirection: Axis.horizontal,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Container(
-                          decoration: BoxDecoration(
-                            border: Border(
-                              bottom: BorderSide(
-                                color: Color(0xfffa4a0c),
-                                width: 4.0, // Underline thickness
+                      children: DUMMY_CATEGORIES
+                          .map(
+                            (catData) => Container(
+                              decoration: BoxDecoration(
+                                border: (_selectedCategory == catData.id)
+                                    ? Border(
+                                        bottom: BorderSide(
+                                          color: Color(0xfffa4a0c),
+                                          width: 4.0, // Underline thickness
+                                        ),
+                                      )
+                                    : Border(),
+                              ),
+                              margin: EdgeInsets.only(
+                                left: queryData.size.width * 0.01,
+                                right: queryData.size.width * 0.01,
+                              ),
+                              child: Padding(
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: queryData.size.width * 0.02,
+                                ),
+                                child: TextButton(
+                                  onPressed: () => _onCategoryTap(catData.id),
+                                  child: Text(
+                                    catData.category,
+                                    style: TextStyle(
+                                      color: _selectedCategory == catData.id
+                                          ? Color(0xfffa4a0c)
+                                          : Color(0xff99999d),
+                                      fontSize: _selectedCategory == catData.id
+                                          ? 17
+                                          : 15,
+                                    ),
+                                  ),
+                                ),
                               ),
                             ),
-                          ),
-                          margin: EdgeInsets.only(
-                            left: queryData.size.width * 0.01,
-                            right: queryData.size.width * 0.01,
-                          ),
-                          child: Padding(
-                            padding: EdgeInsets.only(
-                                left: queryData.size.width * 0.03,
-                                right: queryData.size.width * 0.03,
-                                bottom: queryData.size.height * 0.01),
-                            child: Text(
-                              "Indian",
-                              style: TextStyle(
-                                color: Color(0xfffa4a0c),
-                                fontSize: 17,
-                              ),
-                            ),
-                          ),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(
-                            left: queryData.size.width * 0.01,
-                            right: queryData.size.width * 0.01,
-                          ),
-                          child: Padding(
-                            padding: EdgeInsets.only(
-                                left: queryData.size.width * 0.03,
-                                right: queryData.size.width * 0.03,
-                                bottom: queryData.size.height * 0.01),
-                            child: Text(
-                              "Chinese",
-                              style: TextStyle(
-                                color: Color(0xff99999d),
-                                fontSize: 17,
-                              ),
-                            ),
-                          ),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(
-                            left: queryData.size.width * 0.01,
-                            right: queryData.size.width * 0.01,
-                          ),
-                          child: Padding(
-                            padding: EdgeInsets.only(
-                                left: queryData.size.width * 0.03,
-                                right: queryData.size.width * 0.03,
-                                bottom: queryData.size.height * 0.01),
-                            child: Text(
-                              "Italian",
-                              style: TextStyle(
-                                color: Color(0xff99999d),
-                                fontSize: 17,
-                              ),
-                            ),
-                          ),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(
-                            left: queryData.size.width * 0.01,
-                            right: queryData.size.width * 0.01,
-                          ),
-                          child: Padding(
-                            padding: EdgeInsets.only(
-                                left: queryData.size.width * 0.03,
-                                right: queryData.size.width * 0.03,
-                                bottom: queryData.size.height * 0.01),
-                            child: Text(
-                              "Mexican",
-                              style: TextStyle(
-                                color: Color(0xff99999d),
-                                fontSize: 17,
-                              ),
-                            ),
-                          ),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(
-                            left: queryData.size.width * 0.01,
-                            right: queryData.size.width * 0.01,
-                          ),
-                          child: Padding(
-                            padding: EdgeInsets.only(
-                                left: queryData.size.width * 0.03,
-                                right: queryData.size.width * 0.03,
-                                bottom: queryData.size.height * 0.01),
-                            child: Text(
-                              "Cocktails",
-                              style: TextStyle(
-                                color: Color(0xff99999d),
-                                fontSize: 17,
-                              ),
-                            ),
-                          ),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(
-                            left: queryData.size.width * 0.01,
-                            right: queryData.size.width * 0.01,
-                          ),
-                          child: Padding(
-                            padding: EdgeInsets.only(
-                                left: queryData.size.width * 0.03,
-                                right: queryData.size.width * 0.03,
-                                bottom: queryData.size.height * 0.01),
-                            child: Text(
-                              "Indian",
-                              style: TextStyle(
-                                color: Color(0xff99999d),
-                                fontSize: 17,
-                              ),
-                            ),
-                          ),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(
-                            left: queryData.size.width * 0.01,
-                            right: queryData.size.width * 0.01,
-                          ),
-                          child: Padding(
-                            padding: EdgeInsets.only(
-                                left: queryData.size.width * 0.03,
-                                right: queryData.size.width * 0.03,
-                                bottom: queryData.size.height * 0.01),
-                            child: Text(
-                              "Indian",
-                              style: TextStyle(
-                                color: Color(0xff99999d),
-                                fontSize: 17,
-                              ),
-                            ),
-                          ),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(
-                            left: queryData.size.width * 0.01,
-                            right: queryData.size.width * 0.01,
-                          ),
-                          child: Padding(
-                            padding: EdgeInsets.only(
-                                left: queryData.size.width * 0.03,
-                                right: queryData.size.width * 0.03,
-                                bottom: queryData.size.height * 0.01),
-                            child: Text(
-                              "Indian",
-                              style: TextStyle(
-                                color: Color(0xff99999d),
-                                fontSize: 17,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
+                          )
+                          .toList(),
                     ),
                   ),
                 ),

@@ -5,52 +5,42 @@ import '../models/category.dart';
 const DUMMY_CATEGORIES = const [
   Category(
     id: 'c1',
-    title: 'Italian',
-    color: Colors.purple,
+    category: 'Italian',
   ),
   Category(
     id: 'c2',
-    title: 'Quick & Easy',
-    color: Colors.red,
+    category: 'Quick & Easy',
   ),
   Category(
     id: 'c3',
-    title: 'Hamburgers',
-    color: Colors.orange,
+    category: 'Hamburgers',
   ),
   Category(
     id: 'c4',
-    title: 'German',
-    color: Colors.amber,
+    category: 'German',
   ),
   Category(
     id: 'c5',
-    title: 'Light & Lovely',
-    color: Colors.blue,
+    category: 'Light & Lovely',
   ),
   Category(
     id: 'c6',
-    title: 'Exotic',
-    color: Colors.green,
+    category: 'Exotic',
   ),
   Category(
     id: 'c7',
-    title: 'Breakfast',
-    color: Colors.lightBlue,
+    category: 'Breakfast',
   ),
   Category(
     id: 'c8',
-    title: 'Asian',
-    color: Colors.lightGreen,
+    category: 'Asian',
   ),
   Category(
     id: 'c9',
-    title: 'French',
-    color: Colors.pink,
+    category: 'French',
   ),
   Category(
     id: 'c10',
-    title: 'Summer',
-    color: Colors.teal,
+    category: 'Summer',
   ),
 ];

@@ -134,6 +134,14 @@ class RecipeDetail extends StatelessWidget {
           ],
         ),
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => {},
+        child: Icon(
+          Icons.favorite,
+          color: Color(0xffff460a),
+        ),
+        backgroundColor: Colors.white,
+      ),
     );
   }
 }
