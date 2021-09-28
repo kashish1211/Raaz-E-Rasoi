@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
 
 class RecipeListContainer extends StatelessWidget {
-  final String dish;
-  RecipeListContainer(this.dish);
+  final String id;
+  final String title;
+  final String image;
+
+  RecipeListContainer(
+    this.id,
+    this.title,
+    this.image,
+  );
   @override
   Widget build(BuildContext context) {
     MediaQueryData queryData;
@@ -46,7 +53,7 @@ class RecipeListContainer extends StatelessWidget {
                       child: Opacity(
                         opacity: 0.90,
                         child: Text(
-                          "Veggie tomato mix tomato mix",
+                          title,
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             color: Colors.black,
@@ -91,7 +98,7 @@ class RecipeListContainer extends StatelessWidget {
                       ),
                       child: FittedBox(
                         child: Image.asset(
-                          'assets/images/$dish.png',
+                          'assets/images/$image.png',
                           fit: BoxFit.fill,
                         ),
                       ),

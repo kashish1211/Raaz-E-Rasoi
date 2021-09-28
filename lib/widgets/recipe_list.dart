@@ -2,7 +2,8 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import './bottom_navbar.dart';
-import './dummy.dart';
+import 'category_model.dart';
+import 'recipe_model.dart';
 import './recipe_list_container.dart';
 
 class RecipeList extends StatefulWidget {
@@ -12,10 +13,11 @@ class RecipeList extends StatefulWidget {
 
 class _RecipeListState extends State<RecipeList> {
   var _selectedCategory = 'c1';
-
-  void _onCategoryTap(String id) {
+  var _selectedCategoryName = 'Italian';
+  void _onCategoryTap(String id, String name) {
     setState(() {
       _selectedCategory = id;
+      _selectedCategoryName = name;
     });
   }
 
@@ -107,7 +109,8 @@ class _RecipeListState extends State<RecipeList> {
                                   horizontal: queryData.size.width * 0.02,
                                 ),
                                 child: TextButton(
-                                  onPressed: () => _onCategoryTap(catData.id),
+                                  onPressed: () => _onCategoryTap(
+                                      catData.id, catData.category),
                                   child: Text(
                                     catData.category,
                                     style: TextStyle(
@@ -133,11 +136,18 @@ class _RecipeListState extends State<RecipeList> {
                     scrollDirection: Axis.horizontal,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        RecipeListContainer('grill'),
-                        RecipeListContainer('demodish'),
-                        RecipeListContainer('grill'),
-                      ],
+                      children: DUMMY_RECIPES
+                          .map(
+                            (recData) =>
+                                recData.category == _selectedCategoryName
+                                    ? RecipeListContainer(
+                                        recData.id,
+                                        recData.title,
+                                        recData.image,
+                                      )
+                                    : Container(),
+                          )
+                          .toList(),
                     ),
                   ),
                 )
