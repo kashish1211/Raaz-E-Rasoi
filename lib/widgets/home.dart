@@ -30,7 +30,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   static List<Widget> _widgetOptions = <Widget>[
     RecipeList(),
     Profile(),
-    RecipeDetail(),
+    // RecipeDetail("r1"),
   ];
 
   void _onItemTapped(int index) {
@@ -63,10 +63,10 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
             icon: Icon(Icons.person),
             title: Text('Profile'),
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.add),
-            title: Text('Recipe Detail'),
-          ),
+          // BottomNavigationBarItem(
+          //   icon: Icon(Icons.add),
+          //   title: Text('Recipe Detail'),
+          // ),
         ],
       ),
     );

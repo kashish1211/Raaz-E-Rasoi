@@ -1,8 +1,28 @@
 import 'package:flutter/material.dart';
 
 import './bottom_navbar.dart';
+import '../models/recipe.dart';
+// import './recipe_modal.dart';
 
 class RecipeDetail extends StatelessWidget {
+  final String id;
+  final String title;
+  final List<String> ingredients;
+  final String recipe;
+  final String image;
+  final String author;
+  final String category;
+
+  RecipeDetail(
+    this.id,
+    this.title,
+    this.ingredients,
+    this.recipe,
+    this.image,
+    this.author,
+    this.category,
+  );
+
   @override
   Widget build(BuildContext context) {
     MediaQueryData queryData;
@@ -15,7 +35,23 @@ class RecipeDetail extends StatelessWidget {
         child: Column(
           children: [
             Container(
-              padding: EdgeInsets.only(top: queryData.size.height * 0.07),
+              padding: EdgeInsets.only(
+                  top: queryData.size.height * 0.04,
+                  left: queryData.size.width * 0.04),
+              child: Row(
+                children: [
+                  IconButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    icon: Icon(Icons.arrow_back),
+                    iconSize: 35,
+                  )
+                ],
+              ),
+            ),
+            Container(
+              padding: EdgeInsets.only(top: queryData.size.height * 0),
               child: Column(
                 children: [
                   Center(
@@ -28,20 +64,20 @@ class RecipeDetail extends StatelessWidget {
                         maxHeight: 200,
                       ),
                       child: Image.asset(
-                        'assets/images/demodish.png',
+                        'assets/images/$image.png',
                         fit: BoxFit.cover,
                       ),
                     ),
                   ),
                   Container(
-                    height: queryData.size.height * 0.55,
+                    height: queryData.size.height * 0.59,
                     width: double.infinity,
                     child: SingleChildScrollView(
                       child: Column(
                         children: [
                           SizedBox(height: queryData.size.height * 0.03),
                           Text(
-                            "Tomato Veggie",
+                            title,
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
@@ -51,7 +87,7 @@ class RecipeDetail extends StatelessWidget {
                           ),
                           SizedBox(height: queryData.size.height * 0.015),
                           Text(
-                            "Author ",
+                            author,
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               fontStyle: FontStyle.italic,
@@ -80,15 +116,24 @@ class RecipeDetail extends StatelessWidget {
                             padding: EdgeInsets.only(
                               left: queryData.size.width * 0.1,
                             ),
-                            child: Align(
-                              alignment: Alignment.centerLeft,
-                              child: Text(
-                                " 1. Salt \n 2. Cold Water \n 3. Sugar \n 4. Lemon \n 5. Chat Masala",
-                                style: TextStyle(
-                                  color: Colors.grey.shade700,
-                                  fontSize: 18,
-                                ),
-                              ),
+                            child: Column(
+                              children: ingredients
+                                  .map(
+                                    (recp) => Align(
+                                      alignment: Alignment.centerLeft,
+                                      child: Text(
+                                        (ingredients.indexOf(recp) + 1)
+                                                .toString() +
+                                            ". " +
+                                            recp,
+                                        style: TextStyle(
+                                          color: Colors.grey.shade700,
+                                          fontSize: 18,
+                                        ),
+                                      ),
+                                    ),
+                                  )
+                                  .toList(),
                             ),
                           ),
                           SizedBox(height: queryData.size.height * 0.03),
@@ -112,11 +157,12 @@ class RecipeDetail extends StatelessWidget {
                             padding: EdgeInsets.only(
                               left: queryData.size.width * 0.1,
                               bottom: queryData.size.height * 0.05,
+                              right: queryData.size.width * 0.1,
                             ),
                             child: Align(
                               alignment: Alignment.centerLeft,
                               child: Text(
-                                " 1. Salt \n 2. Cold Water \n 3. Sugar \n 4. Lemon \n 5. Chat Masala",
+                                recipe,
                                 style: TextStyle(
                                   color: Colors.grey.shade700,
                                   fontSize: 18,

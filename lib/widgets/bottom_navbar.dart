@@ -13,7 +13,7 @@ class _BottomNavbarState extends State<BottomNavbar> {
   static List<Widget> _widgetOptions = <Widget>[
     RecipeList(),
     Profile(),
-    RecipeDetail(),
+    // RecipeDetail("r1"),
   ];
 
   void _onItemTapped(int index) {
@@ -46,10 +46,10 @@ class _BottomNavbarState extends State<BottomNavbar> {
             icon: Icon(Icons.person),
             title: Text('Profile'),
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.add),
-            title: Text('Recipe Detail'),
-          ),
+          // BottomNavigationBarItem(
+          //   icon: Icon(Icons.add),
+          //   title: Text('Recipe Detail'),
+          // ),
         ],
       ),
     );

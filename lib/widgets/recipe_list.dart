@@ -1,7 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import './bottom_navbar.dart';
+
 import 'category_model.dart';
 import 'recipe_model.dart';
 import './recipe_list_container.dart';
@@ -143,7 +143,11 @@ class _RecipeListState extends State<RecipeList> {
                                     ? RecipeListContainer(
                                         recData.id,
                                         recData.title,
+                                        recData.ingredients,
+                                        recData.recipe,
                                         recData.image,
+                                        recData.author,
+                                        recData.category,
                                       )
                                     : Container(),
                           )
