@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:raaz_e_rasoi/widgets/home.dart';
 
-import './header.dart';
+import 'header.dart';
 
 class Login extends StatelessWidget {
   void getMyHome(BuildContext ctx) {

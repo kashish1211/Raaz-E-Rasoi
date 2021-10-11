@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "427758836125",
+    "project_id": "raaz-e-rasoi",
+    "storage_bucket": "raaz-e-rasoi.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:427758836125:android:2720ec7de3d5fee62eb774",
+        "android_client_info": {
+          "package_name": "com.hks.raaz_e_rasoi"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "427758836125-9onv2il5sr8vh5n6v6f4sicljnkgfq35.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBbjC7sGmI21smVDQ7vhsFIqOSs0jrnG_U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "427758836125-9onv2il5sr8vh5n6v6f4sicljnkgfq35.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

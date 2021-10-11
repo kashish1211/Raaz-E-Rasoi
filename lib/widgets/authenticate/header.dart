@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:raaz_e_rasoi/widgets/login.dart';
-import 'package:raaz_e_rasoi/widgets/signup.dart';
+import 'package:raaz_e_rasoi/widgets/authenticate/login.dart';
+import 'package:raaz_e_rasoi/widgets/authenticate/signup.dart';
 import 'package:swipeable_page_route/swipeable_page_route.dart';
 
 class Header extends StatefulWidget {

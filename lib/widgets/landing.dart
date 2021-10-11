@@ -1,7 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:raaz_e_rasoi/widgets/header.dart';
-import 'package:raaz_e_rasoi/widgets/login.dart';
-import 'package:raaz_e_rasoi/widgets/signup.dart';
+import 'package:raaz_e_rasoi/widgets/authenticate/header.dart';
+import 'package:raaz_e_rasoi/widgets/authenticate/login.dart';
+import 'package:raaz_e_rasoi/widgets/authenticate/signup.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Landing extends StatelessWidget {
   void getLoginSignup(BuildContext ctx) {
@@ -76,7 +78,15 @@ class Landing extends StatelessWidget {
                   borderRadius: BorderRadius.circular(100),
                 ),
               ),
-              onPressed: () => getLoginSignup(context),
+              // onPressed: () => getLoginSignup(context),
+              onPressed: () {
+                FirebaseFirestore.instance
+                    .collection('recipes')
+                    .snapshots()
+                    .listen((event) {
+                  print(event.docs[0]['title']);
+                });
+              },
               child: Text(
                 "Bon Appétit",
                 style: TextStyle(
