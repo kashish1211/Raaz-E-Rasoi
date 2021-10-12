@@ -78,15 +78,22 @@ class Landing extends StatelessWidget {
                   borderRadius: BorderRadius.circular(100),
                 ),
               ),
-              // onPressed: () => getLoginSignup(context),
-              onPressed: () {
-                FirebaseFirestore.instance
-                    .collection('recipes')
-                    .snapshots()
-                    .listen((event) {
-                  print(event.docs[0]['title']);
-                });
-              },
+              onPressed: () => getLoginSignup(context),
+              // onPressed: () {
+              //   FirebaseFirestore.instance.collection('recipes').add(
+              //     {
+              //       'title': 'Veggie2',
+              //       'author': 'Kashish',
+              //       'category': 'indian',
+              //       'ingredients': [
+              //         'i1',
+              //         'i2',
+              //         'i3',
+              //       ],
+              //       'recipe': 'Recipes steps',
+              //     },
+              //   );
+              // },
               child: Text(
                 "Bon Appétit",
                 style: TextStyle(
