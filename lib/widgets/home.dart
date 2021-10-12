@@ -1,13 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
-import 'package:raaz_e_rasoi/widgets/bottom_navbar.dart';
-import './categories_screen.dart';
-import './landing.dart';
-import 'authenticate/signup.dart';
-import 'authenticate/login.dart';
-import './recipe_detail.dart';
 import './recipe_list.dart';
 import './profile.dart';
+import './landing.dart';
 
 class MyHome extends StatelessWidget {
   @override
@@ -27,20 +22,26 @@ class MyStatefulWidget extends StatefulWidget {
 
 class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   int _selectedIndex = 0;
-  static List<Widget> _widgetOptions = <Widget>[
+  static List _widgetOptions = [
     RecipeList(),
     Profile(),
-    // RecipeDetail("r1"),
+    Profile(),
   ];
 
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
+      if (_selectedIndex == 2) {
+        FirebaseAuth.instance.signOut();
+      }
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    if (_selectedIndex == 2) {
+      FirebaseAuth.instance.signOut();
+    }
     return Scaffold(
       body: _widgetOptions.elementAt(_selectedIndex),
       bottomNavigationBar: BottomNavigationBar(
@@ -63,10 +64,10 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
             icon: Icon(Icons.person),
             title: Text('Profile'),
           ),
-          // BottomNavigationBarItem(
-          //   icon: Icon(Icons.add),
-          //   title: Text('Recipe Detail'),
-          // ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.logout_sharp),
+            title: Text('Logout'),
+          ),
         ],
       ),
     );
