@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import './recipe_list.dart';
 import './profile.dart';
+import './add_recipe.dart';
 import './authenticate/header.dart';
 
 class MyHome extends StatelessWidget {
@@ -25,13 +26,14 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   static List _widgetOptions = [
     RecipeList(),
     Profile(),
-    CircularProgressIndicator(),
+    AddRecipe(),
+    Center(child: CircularProgressIndicator(color: Color(0xfffa4a0c))),
   ];
 
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
-      if (_selectedIndex == 2) {
+      if (_selectedIndex == 3) {
         FirebaseAuth.instance.signOut();
         Navigator.of(context).push(MaterialPageRoute(builder: (_) {
           return Header();
@@ -56,13 +58,13 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
             icon: new Icon(Icons.home),
             title: new Text('Home'),
           ),
-          // BottomNavigationBarItem(
-          //   icon: new Icon(Icons.mail),
-          //   title: new Text('Favorites'),
-          // ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),
             title: Text('Profile'),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.add),
+            title: Text('Add'),
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.logout_sharp),
