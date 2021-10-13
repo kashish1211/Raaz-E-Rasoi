@@ -182,7 +182,9 @@ class _SignupState extends State<Signup> {
                         ),
                         onPressed: () => _trySubmit(context),
                         child: _isLoading
-                            ? CircularProgressIndicator()
+                            ? CircularProgressIndicator(
+                                color: Colors.white,
+                              )
                             : Text(
                                 "Sign up",
                                 style: TextStyle(

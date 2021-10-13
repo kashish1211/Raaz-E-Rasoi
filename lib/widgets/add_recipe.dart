@@ -9,194 +9,238 @@ class AddRecipe extends StatefulWidget {
 }
 
 class _AddRecipeState extends State<AddRecipe> {
+  final FirebaseAuth auth = FirebaseAuth.instance;
+  var email = "";
+  void getEmail() {
+    final User? user = auth.currentUser;
+    email = user!.email!;
+  }
+
   var _recipeName = "";
   var _recipeCategory = "Choose a category";
   var _recipe = "";
   var _recipeIngredients = [];
+  var _isLoading = false;
   final _formKey = GlobalKey<FormState>();
 
   void _trySubmit(BuildContext ctx) {
+    setState(() {
+      _isLoading = true;
+    });
     final isValid = _formKey.currentState!.validate();
     FocusScope.of(context).unfocus();
     if (isValid) {
       _formKey.currentState!.save();
-      print(_recipeName);
-      print(_recipeCategory);
-      print(_recipe);
-      print(_recipeIngredients);
+      getEmail();
+      FirebaseFirestore.instance
+          .collection('recipes')
+          .doc(email)
+          .collection(_recipeName)
+          .add(
+        {
+          'Title': _recipeName,
+          'Author': email,
+          'Category': _recipeCategory,
+          'Ingredients': _recipeIngredients,
+          'Recipe': _recipe,
+        },
+      );
+
+      ScaffoldMessenger.of(ctx).showSnackBar(
+        SnackBar(
+          content: Text("Your recipe has been added. Seems Delicious! "),
+          backgroundColor: Colors.green,
+        ),
+      );
+    } else {
+      ScaffoldMessenger.of(ctx).showSnackBar(
+        SnackBar(
+          content: Text('Error occured. Please Try Again!'),
+          backgroundColor: Colors.red,
+        ),
+      );
     }
+    setState(() {
+      _isLoading = false;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     MediaQueryData queryData;
     queryData = MediaQuery.of(context);
-    return ListView(
-      children: [
-        Container(
-          height: queryData.size.height,
-          decoration: BoxDecoration(
-            color: Color(0xfff2f2f2),
-          ),
-          child: Column(
-            children: [
-              Padding(
-                padding: EdgeInsets.only(
-                  left: queryData.size.width * 0.08,
-                  top: queryData.size.height * 0.07,
-                ),
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    "Add New Recipe",
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 30,
+    return Scaffold(
+      body: ListView(
+        children: [
+          Container(
+            height: queryData.size.height,
+            decoration: BoxDecoration(
+              color: Color(0xfff2f2f2),
+            ),
+            child: Column(
+              children: [
+                Padding(
+                  padding: EdgeInsets.only(
+                    left: queryData.size.width * 0.08,
+                    top: queryData.size.height * 0.07,
+                  ),
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      "Add New Recipe",
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 30,
+                      ),
                     ),
                   ),
                 ),
-              ),
-              SizedBox(height: queryData.size.height * 0.03),
-              Container(
-                margin: EdgeInsets.symmetric(
-                  horizontal: queryData.size.width * 0.1,
-                ),
-                child: Form(
-                  key: _formKey,
-                  child: Column(
-                    children: [
-                      SizedBox(height: queryData.size.height * 0.08),
-                      TextFormField(
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            return 'Enter valid Title!';
-                          }
-                          return null;
-                        },
-                        decoration: InputDecoration(
-                          labelText: 'Title of your Recipe',
-                          labelStyle: TextStyle(
-                            color: Colors.grey.shade600,
-                            fontSize: 18,
-                          ),
-                          focusedBorder: UnderlineInputBorder(
-                            borderSide:
-                                BorderSide(color: const Color(0xfffa4a0c)),
-                          ),
-                        ),
-                        onSaved: (value) {
-                          _recipeName = value!;
-                        },
-                      ),
-                      SizedBox(height: queryData.size.height * 0.04),
-                      DropdownButtonFormField<String>(
-                        value: _recipeCategory,
-                        style: TextStyle(color: Colors.black),
-                        validator: (value) {
-                          if (value == "Choose a category") {
-                            return 'Enter valid category';
-                          }
-                          return null;
-                        },
-                        items: <String>[
-                          'Choose a category',
-                          'Android',
-                          'IOS',
-                          'Flutter',
-                          'Node',
-                          'Java',
-                          'Python',
-                          'PHP',
-                        ].map<DropdownMenuItem<String>>((String value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Text(
-                              value,
-                              style: TextStyle(
-                                fontSize: 18,
-                                color: Colors.grey.shade600,
-                              ),
+                SizedBox(height: queryData.size.height * 0.03),
+                Container(
+                  margin: EdgeInsets.symmetric(
+                    horizontal: queryData.size.width * 0.1,
+                  ),
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
+                      children: [
+                        SizedBox(height: queryData.size.height * 0.08),
+                        TextFormField(
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return 'Enter valid Title!';
+                            }
+                            return null;
+                          },
+                          decoration: InputDecoration(
+                            labelText: 'Title of your Recipe',
+                            labelStyle: TextStyle(
+                              color: Colors.grey.shade600,
+                              fontSize: 18,
                             ),
-                          );
-                        }).toList(),
-                        onChanged: (String? value) {
-                          setState(() {
-                            _recipeCategory = value!;
-                          });
-                        },
-                      ),
-                      SizedBox(height: queryData.size.height * 0.04),
-                      TextFormField(
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            return 'Please Enter Proper Ingredients';
-                          }
-                          return null;
-                        },
-                        decoration: InputDecoration(
-                          labelText: 'Recipe Ingredients',
-                          labelStyle: TextStyle(
-                            color: Colors.grey.shade600,
-                            fontSize: 18,
+                            focusedBorder: UnderlineInputBorder(
+                              borderSide:
+                                  BorderSide(color: const Color(0xfffa4a0c)),
+                            ),
                           ),
-                          focusedBorder: UnderlineInputBorder(
-                            borderSide:
-                                BorderSide(color: const Color(0xfffa4a0c)),
-                          ),
+                          onSaved: (value) {
+                            _recipeName = value!;
+                          },
                         ),
-                        onSaved: (value) {
-                          _recipeIngredients = value!.split(",");
-                        },
-                      ),
-                      SizedBox(height: queryData.size.height * 0.04),
-                      TextFormField(
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            return 'Please Enter Proper Steps';
-                          }
-                          return null;
-                        },
-                        decoration: InputDecoration(
-                          labelText: 'Recipe Steps',
-                          labelStyle: TextStyle(
-                            color: Colors.grey.shade600,
-                            fontSize: 18,
-                          ),
-                          focusedBorder: UnderlineInputBorder(
-                            borderSide:
-                                BorderSide(color: const Color(0xfffa4a0c)),
-                          ),
+                        SizedBox(height: queryData.size.height * 0.04),
+                        DropdownButtonFormField<String>(
+                          value: _recipeCategory,
+                          style: TextStyle(color: Colors.black),
+                          validator: (value) {
+                            if (value == "Choose a category") {
+                              return 'Enter valid category';
+                            }
+                            return null;
+                          },
+                          items: <String>[
+                            'Choose a category',
+                            'Android',
+                            'IOS',
+                            'Flutter',
+                            'Node',
+                            'Java',
+                            'Python',
+                            'PHP',
+                          ].map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(
+                                value,
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  color: Colors.grey.shade600,
+                                ),
+                              ),
+                            );
+                          }).toList(),
+                          onChanged: (String? value) {
+                            setState(() {
+                              _recipeCategory = value!;
+                            });
+                          },
                         ),
-                        onSaved: (value) {
-                          _recipe = value!;
-                        },
-                      ),
-                      SizedBox(height: queryData.size.height * 0.08),
-                      ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          primary: Color(0xffff460a),
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 60, vertical: 15),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(100),
+                        SizedBox(height: queryData.size.height * 0.04),
+                        TextFormField(
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return 'Please Enter Proper Ingredients';
+                            }
+                            return null;
+                          },
+                          decoration: InputDecoration(
+                            labelText: 'Recipe Ingredients',
+                            labelStyle: TextStyle(
+                              color: Colors.grey.shade600,
+                              fontSize: 18,
+                            ),
+                            focusedBorder: UnderlineInputBorder(
+                              borderSide:
+                                  BorderSide(color: const Color(0xfffa4a0c)),
+                            ),
                           ),
+                          onSaved: (value) {
+                            _recipeIngredients = value!.split(",");
+                          },
                         ),
-                        onPressed: () => _trySubmit(context),
-                        child: Text(
-                          "Add Recipe",
-                          style: TextStyle(
-                            fontSize: 22,
+                        SizedBox(height: queryData.size.height * 0.04),
+                        TextFormField(
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return 'Please Enter Proper Steps';
+                            }
+                            return null;
+                          },
+                          decoration: InputDecoration(
+                            labelText: 'Recipe Steps',
+                            labelStyle: TextStyle(
+                              color: Colors.grey.shade600,
+                              fontSize: 18,
+                            ),
+                            focusedBorder: UnderlineInputBorder(
+                              borderSide:
+                                  BorderSide(color: const Color(0xfffa4a0c)),
+                            ),
                           ),
+                          onSaved: (value) {
+                            _recipe = value!;
+                          },
                         ),
-                      ),
-                    ],
+                        SizedBox(height: queryData.size.height * 0.08),
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            primary: Color(0xffff460a),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 60, vertical: 15),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(100),
+                            ),
+                          ),
+                          onPressed: () => _trySubmit(context),
+                          child: _isLoading
+                              ? CircularProgressIndicator(
+                                  color: Colors.white,
+                                )
+                              : Text(
+                                  "Add Recipe",
+                                  style: TextStyle(
+                                    fontSize: 22,
+                                  ),
+                                ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
