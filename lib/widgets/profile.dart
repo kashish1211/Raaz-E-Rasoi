@@ -1,11 +1,23 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:raaz_e_rasoi/widgets/profile_list.dart';
 
 class Profile extends StatelessWidget {
+  final FirebaseAuth auth = FirebaseAuth.instance;
+  var uid = "";
+  var email = "";
+  void getUID() {
+    final User? user = auth.currentUser;
+    uid = user!.uid;
+    email = user.email!;
+  }
+
   @override
   Widget build(BuildContext context) {
     MediaQueryData queryData;
     queryData = MediaQuery.of(context);
+    getUID();
     return Material(
       child: Container(
         decoration: BoxDecoration(
@@ -84,7 +96,6 @@ class Profile extends StatelessWidget {
               height: queryData.size.height * 0.24,
               width: double.infinity,
               child: Column(
-                // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Container(
                     width: queryData.size.width * 1,
@@ -92,22 +103,29 @@ class Profile extends StatelessWidget {
                       top: queryData.size.height * 0.02,
                       bottom: queryData.size.height * 0.01,
                     ),
-                    // decoration: BoxDecoration(
-                    //   border: Border(
-                    //     bottom: BorderSide(
-                    //       color: Colors.black,
-                    //       width: 0.5, // Underline thickness
-                    //     ),
-                    //   ),
-                    // ),
                     child: Align(
                       alignment: Alignment.center,
-                      child: Text(
-                        "Shubh Gangar",
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 30,
-                        ),
+                      child: FutureBuilder<DocumentSnapshot<Object?>>(
+                        future: FirebaseFirestore.instance
+                            .collection('users')
+                            .doc(uid)
+                            .get(),
+                        builder: (context,
+                            AsyncSnapshot<DocumentSnapshot> snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return Text('Loading..');
+                          }
+                          Map<String, dynamic> data =
+                              snapshot.data!.data() as Map<String, dynamic>;
+                          return Text(
+                            "${data['FullName']}",
+                            style: TextStyle(
+                              fontSize: 30,
+                              color: Colors.black,
+                            ),
+                          );
+                        },
                       ),
                     ),
                   ),
@@ -130,7 +148,7 @@ class Profile extends StatelessWidget {
                       child: Opacity(
                         opacity: 0.50,
                         child: Text(
-                          "shubhgangar111@gmail.com",
+                          email,
                           style: TextStyle(
                             color: Colors.black,
                             fontSize: 14,

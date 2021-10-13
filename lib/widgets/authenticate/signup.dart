@@ -20,12 +20,6 @@ class _SignupState extends State<Signup> {
 
   var _isLoading = false;
 
-  void getMyHome(BuildContext ctx) {
-    Navigator.of(ctx).push(MaterialPageRoute(builder: (_) {
-      return MyHome();
-    }));
-  }
-
   void _trySubmit(BuildContext ctx) {
     final isValid = _formKey.currentState!.validate();
     FocusScope.of(context).unfocus();
