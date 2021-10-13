@@ -12,11 +12,6 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
   final _auth = FirebaseAuth.instance;
-  void getMyHome(BuildContext ctx) {
-    Navigator.of(ctx).push(MaterialPageRoute(builder: (_) {
-      return MyHome();
-    }));
-  }
 
   final _formKey = GlobalKey<FormState>();
   String _userEmail = '';
@@ -43,7 +38,7 @@ class _LoginState extends State<Login> {
         email: _userEmail,
         password: _userPassword,
       );
-      Navigator.of(ctx).push(MaterialPageRoute(builder: (_) {
+      Navigator.of(ctx).pushReplacement(MaterialPageRoute(builder: (_) {
         return MyHome();
       }));
     } on FirebaseAuthException catch (e) {

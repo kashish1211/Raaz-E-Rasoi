@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import './recipe_list.dart';
 import './profile.dart';
-import './landing.dart';
+import './authenticate/header.dart';
 
 class MyHome extends StatelessWidget {
   @override
@@ -25,7 +25,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   static List _widgetOptions = [
     RecipeList(),
     Profile(),
-    Profile(),
+    CircularProgressIndicator(),
   ];
 
   void _onItemTapped(int index) {
@@ -33,15 +33,15 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
       _selectedIndex = index;
       if (_selectedIndex == 2) {
         FirebaseAuth.instance.signOut();
+        Navigator.of(context).push(MaterialPageRoute(builder: (_) {
+          return Header();
+        }));
       }
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    if (_selectedIndex == 2) {
-      FirebaseAuth.instance.signOut();
-    }
     return Scaffold(
       body: _widgetOptions.elementAt(_selectedIndex),
       bottomNavigationBar: BottomNavigationBar(
