@@ -1,7 +1,10 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:raaz_e_rasoi/widgets/authenticate/header.dart';
+import 'package:image_picker/image_picker.dart';
 
 class AddRecipe extends StatefulWidget {
   @override
@@ -65,6 +68,19 @@ class _AddRecipeState extends State<AddRecipe> {
     });
   }
 
+  File? _pickedImage;
+
+  void _pickImage() async {
+    final _pickedImageFile = await ImagePicker().pickImage(
+      source: ImageSource.camera,
+    );
+    File file = File(_pickedImageFile!.path);
+
+    setState(() {
+      _pickedImage = file;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     MediaQueryData queryData;
@@ -73,7 +89,7 @@ class _AddRecipeState extends State<AddRecipe> {
       body: ListView(
         children: [
           Container(
-            height: queryData.size.height,
+            height: queryData.size.height * 1.35,
             decoration: BoxDecoration(
               color: Color(0xfff2f2f2),
             ),
@@ -104,7 +120,7 @@ class _AddRecipeState extends State<AddRecipe> {
                     key: _formKey,
                     child: Column(
                       children: [
-                        SizedBox(height: queryData.size.height * 0.08),
+                        SizedBox(height: queryData.size.height * 0.04),
                         TextFormField(
                           validator: (value) {
                             if (value!.isEmpty) {
@@ -139,13 +155,13 @@ class _AddRecipeState extends State<AddRecipe> {
                           },
                           items: <String>[
                             'Choose a category',
-                            'Android',
-                            'IOS',
-                            'Flutter',
-                            'Node',
-                            'Java',
-                            'Python',
-                            'PHP',
+                            'Indian',
+                            'Mexican',
+                            'Italian',
+                            'Chinese',
+                            'Cocktails',
+                            'Starters',
+                            'Deserts',
                           ].map<DropdownMenuItem<String>>((String value) {
                             return DropdownMenuItem<String>(
                               value: value,
@@ -210,7 +226,38 @@ class _AddRecipeState extends State<AddRecipe> {
                             _recipe = value!;
                           },
                         ),
-                        SizedBox(height: queryData.size.height * 0.08),
+                        SizedBox(height: queryData.size.height * 0.04),
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: TextButton.icon(
+                            icon: Icon(
+                              Icons.image,
+                              color: const Color(0xfffa4a0c),
+                            ),
+                            label: Text(
+                              'Recipe Image',
+                              style: TextStyle(
+                                color: Colors.grey.shade600,
+                                fontSize: 18,
+                              ),
+                            ),
+                            onPressed: _pickImage,
+                          ),
+                        ),
+                        SizedBox(height: queryData.size.height * 0.02),
+                        if (_pickedImage != null)
+                          Image.file(
+                            _pickedImage!,
+                            height: queryData.size.height * 0.3,
+                            width: queryData.size.width * 0.4,
+                            // fit: BoxFit.fitHeight,
+                          ),
+                        // Container(
+                        //   decoration: BoxDecoration(
+                        //       image: DecorationImage(
+                        //           image: FileImage(_pickedImage!))),
+                        // ),
+                        SizedBox(height: queryData.size.height * 0.04),
                         ElevatedButton(
                           style: ElevatedButton.styleFrom(
                             primary: Color(0xffff460a),
