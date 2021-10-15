@@ -72,7 +72,7 @@ class _AddRecipeState extends State<AddRecipe> {
 
   void _pickImage() async {
     final _pickedImageFile = await ImagePicker().pickImage(
-      source: ImageSource.camera,
+      source: ImageSource.gallery,
     );
     File file = File(_pickedImageFile!.path);
 
@@ -89,7 +89,7 @@ class _AddRecipeState extends State<AddRecipe> {
       body: ListView(
         children: [
           Container(
-            height: queryData.size.height * 1.35,
+            height: queryData.size.height * 1.25,
             decoration: BoxDecoration(
               color: Color(0xfff2f2f2),
             ),
