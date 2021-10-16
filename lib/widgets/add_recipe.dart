@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:raaz_e_rasoi/widgets/authenticate/header.dart';
 import 'package:image_picker/image_picker.dart';
@@ -24,17 +25,38 @@ class _AddRecipeState extends State<AddRecipe> {
   var _recipe = "";
   var _recipeIngredients = [];
   var _isLoading = false;
+  File? _pickedImage;
   final _formKey = GlobalKey<FormState>();
 
-  void _trySubmit(BuildContext ctx) {
+  void _trySubmit(BuildContext ctx) async {
     setState(() {
       _isLoading = true;
     });
     final isValid = _formKey.currentState!.validate();
     FocusScope.of(context).unfocus();
+    if (_pickedImage == null) {
+      setState(() {
+        _isLoading = false;
+      });
+      ScaffoldMessenger.of(ctx).showSnackBar(
+        SnackBar(
+          content: Text("Please Upload a valid image."),
+          backgroundColor: Colors.red,
+        ),
+      );
+      return;
+    }
     if (isValid) {
       _formKey.currentState!.save();
       getEmail();
+      final ref = FirebaseStorage.instance
+          .ref()
+          .child('Recipe Images')
+          .child(email)
+          .child(_recipeName + '.jpg');
+
+      await ref.putFile(_pickedImage!).whenComplete;
+
       FirebaseFirestore.instance
           .collection('recipes')
           .doc(email)
@@ -68,8 +90,6 @@ class _AddRecipeState extends State<AddRecipe> {
     });
   }
 
-  File? _pickedImage;
-
   void _pickImage() async {
     final _pickedImageFile = await ImagePicker().pickImage(
       source: ImageSource.gallery,
@@ -89,7 +109,9 @@ class _AddRecipeState extends State<AddRecipe> {
       body: ListView(
         children: [
           Container(
-            height: queryData.size.height * 1.25,
+            height: _pickedImage != null
+                ? queryData.size.height * 1.25
+                : queryData.size.height * 1,
             decoration: BoxDecoration(
               color: Color(0xfff2f2f2),
             ),
@@ -98,7 +120,7 @@ class _AddRecipeState extends State<AddRecipe> {
                 Padding(
                   padding: EdgeInsets.only(
                     left: queryData.size.width * 0.08,
-                    top: queryData.size.height * 0.07,
+                    top: queryData.size.height * 0.06,
                   ),
                   child: Align(
                     alignment: Alignment.centerLeft,
@@ -246,23 +268,16 @@ class _AddRecipeState extends State<AddRecipe> {
                         ),
                         SizedBox(height: queryData.size.height * 0.02),
                         if (_pickedImage != null)
-                          Image.file(
-                            _pickedImage!,
-                            height: queryData.size.height * 0.3,
-                            width: queryData.size.width * 0.4,
-                            // fit: BoxFit.fitHeight,
+                          CircleAvatar(
+                            radius: 75,
+                            backgroundImage: FileImage(_pickedImage!),
                           ),
-                        // Container(
-                        //   decoration: BoxDecoration(
-                        //       image: DecorationImage(
-                        //           image: FileImage(_pickedImage!))),
-                        // ),
-                        SizedBox(height: queryData.size.height * 0.04),
+                        SizedBox(height: queryData.size.height * 0.02),
                         ElevatedButton(
                           style: ElevatedButton.styleFrom(
                             primary: Color(0xffff460a),
                             padding: EdgeInsets.symmetric(
-                                horizontal: 60, vertical: 15),
+                                horizontal: 40, vertical: 15),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(100),
                             ),
