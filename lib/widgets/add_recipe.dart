@@ -23,8 +23,10 @@ class _AddRecipeState extends State<AddRecipe> {
   var _recipeName = "";
   var _recipeCategory = "Choose a category";
   var _recipe = "";
+  var _url = "";
   var _recipeIngredients = [];
   var _isLoading = false;
+
   File? _pickedImage;
   final _formKey = GlobalKey<FormState>();
 
@@ -49,25 +51,32 @@ class _AddRecipeState extends State<AddRecipe> {
     if (isValid) {
       _formKey.currentState!.save();
       getEmail();
-      final ref = FirebaseStorage.instance
+
+      // await ref.putFile(_pickedImage!).whenComplete;
+
+      // FirebaseStorage storage = FirebaseStorage.instance;
+      Reference ref = FirebaseStorage.instance
           .ref()
           .child('Recipe Images')
           .child(email)
           .child(_recipeName + '.jpg');
+      UploadTask uploadTask = ref.putFile(_pickedImage!);
+      var url;
+      // uploadTask.then((res) {
+      //   url = res.ref.getDownloadURL();
+      // });
+      url = await (await uploadTask).ref.getDownloadURL();
 
-      await ref.putFile(_pickedImage!).whenComplete;
+      print('URL:' + url);
 
-      FirebaseFirestore.instance
-          .collection('recipes')
-          .doc(email)
-          .collection(_recipeName)
-          .add(
+      FirebaseFirestore.instance.collection('recipes').add(
         {
           'Title': _recipeName,
           'Author': email,
           'Category': _recipeCategory,
           'Ingredients': _recipeIngredients,
           'Recipe': _recipe,
+          'RecipeImage': url,
         },
       );
 

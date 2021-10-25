@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import 'category_model.dart';
@@ -12,13 +13,37 @@ class RecipeList extends StatefulWidget {
 }
 
 class _RecipeListState extends State<RecipeList> {
+  CollectionReference _collectionRef =
+      FirebaseFirestore.instance.collection('recipes');
+
   var _selectedCategory = 'c1';
   var _selectedCategoryName = 'Italian';
+  var _selectedRecipes = [];
+
   void _onCategoryTap(String id, String name) {
     setState(() {
       _selectedCategory = id;
       _selectedCategoryName = name;
+      getData(_selectedCategoryName);
     });
+  }
+
+  Future<void> getData(String category) async {
+    // Get docs from collection reference
+
+    QuerySnapshot querySnapshot =
+        await _collectionRef.where('Category', isEqualTo: category).get();
+
+    // Get data from docs and convert map to List
+    _selectedRecipes = querySnapshot.docs.map((doc) => doc.data()).toList();
+    print(_selectedRecipes);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getData(_selectedCategoryName);
+    print("Hererere");
   }
 
   @override
@@ -136,20 +161,16 @@ class _RecipeListState extends State<RecipeList> {
                     scrollDirection: Axis.horizontal,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: DUMMY_RECIPES
+                      children: _selectedRecipes
                           .map(
-                            (recData) =>
-                                recData.category == _selectedCategoryName
-                                    ? RecipeListContainer(
-                                        recData.id,
-                                        recData.title,
-                                        recData.ingredients,
-                                        recData.recipe,
-                                        recData.image,
-                                        recData.author,
-                                        recData.category,
-                                      )
-                                    : Container(),
+                            (recData) => RecipeListContainer(
+                              recData['Title'].toString(),
+                              // recData['Ingredients'],
+                              recData['Recipe'].toString(),
+                              recData['RecipeImage'].toString(),
+                              recData['Author'].toString(),
+                              recData['Category'].toString(),
+                            ),
                           )
                           .toList(),
                     ),

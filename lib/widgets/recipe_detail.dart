@@ -5,18 +5,21 @@ import '../models/recipe.dart';
 // import './recipe_modal.dart';
 
 class RecipeDetail extends StatelessWidget {
-  final String id;
+  // final String id;
   final String title;
-  final List<String> ingredients;
+  final List<String> ingredients = [
+    "",
+    "",
+  ];
   final String recipe;
   final String image;
   final String author;
   final String category;
 
   RecipeDetail(
-    this.id,
+    // this.id,
     this.title,
-    this.ingredients,
+    // this.ingredients,
     this.recipe,
     this.image,
     this.author,

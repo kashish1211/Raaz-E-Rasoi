@@ -2,18 +2,17 @@ import 'package:flutter/material.dart';
 import './recipe_detail.dart';
 
 class RecipeListContainer extends StatelessWidget {
-  final String id;
+  // final String id;
   final String title;
-  final List<String> ingredients;
+  // final List<String> ingredients;
   final String recipe;
   final String image;
   final String author;
   final String category;
 
   RecipeListContainer(
-    this.id,
     this.title,
-    this.ingredients,
+    // this.ingredients,
     this.recipe,
     this.image,
     this.author,
@@ -24,13 +23,13 @@ class RecipeListContainer extends StatelessWidget {
     BuildContext ctx,
   ) {
     Navigator.of(ctx).push(MaterialPageRoute(builder: (_) {
-      return RecipeDetail(
-          id, title, ingredients, recipe, image, author, category);
+      return RecipeDetail(title, recipe, image, author, category);
     }));
   }
 
   @override
   Widget build(BuildContext context) {
+    print(title);
     MediaQueryData queryData;
     queryData = MediaQuery.of(context);
     return Container(
@@ -119,9 +118,9 @@ class RecipeListContainer extends StatelessWidget {
                         color: Colors.white,
                       ),
                       child: FittedBox(
-                        child: Image.asset(
-                          'assets/images/$image.png',
-                          fit: BoxFit.fill,
+                        child: CircleAvatar(
+                          backgroundImage: NetworkImage(image),
+                          backgroundColor: Colors.transparent,
                         ),
                       ),
                     ),
