@@ -24,7 +24,7 @@ class _AddRecipeState extends State<AddRecipe> {
   var _recipeCategory = "Choose a category";
   var _recipe = "";
   var _url = "";
-  var _recipeIngredients = [];
+  var _recipeIngredients = "";
   var _isLoading = false;
 
   File? _pickedImage;
@@ -231,7 +231,7 @@ class _AddRecipeState extends State<AddRecipe> {
                             ),
                           ),
                           onSaved: (value) {
-                            _recipeIngredients = value!.split(",");
+                            _recipeIngredients = value!;
                           },
                         ),
                         SizedBox(height: queryData.size.height * 0.04),

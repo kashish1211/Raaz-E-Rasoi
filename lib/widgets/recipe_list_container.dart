@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import './recipe_detail.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class RecipeListContainer extends StatelessWidget {
   // final String id;
   final String title;
-  // final List<String> ingredients;
+  final String ingredients;
   final String recipe;
   final String image;
   final String author;
@@ -12,7 +13,7 @@ class RecipeListContainer extends StatelessWidget {
 
   RecipeListContainer(
     this.title,
-    // this.ingredients,
+    this.ingredients,
     this.recipe,
     this.image,
     this.author,
@@ -23,13 +24,12 @@ class RecipeListContainer extends StatelessWidget {
     BuildContext ctx,
   ) {
     Navigator.of(ctx).push(MaterialPageRoute(builder: (_) {
-      return RecipeDetail(title, recipe, image, author, category);
+      return RecipeDetail(title, ingredients, recipe, image, author, category);
     }));
   }
 
   @override
   Widget build(BuildContext context) {
-    print(title);
     MediaQueryData queryData;
     queryData = MediaQuery.of(context);
     return Container(
@@ -118,9 +118,16 @@ class RecipeListContainer extends StatelessWidget {
                         color: Colors.white,
                       ),
                       child: FittedBox(
-                        child: CircleAvatar(
-                          backgroundImage: NetworkImage(image),
-                          backgroundColor: Colors.transparent,
+                        child: ClipOval(
+                          child: CachedNetworkImage(
+                            fit: BoxFit.cover,
+                            width: 50,
+                            height: 50,
+                            placeholder: (context, url) =>
+                                CircularProgressIndicator(),
+                            imageUrl:
+                                'https://www.kindacode.com/wp-content/uploads/2020/10/sample.jpg',
+                          ),
                         ),
                       ),
                     ),

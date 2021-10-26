@@ -7,10 +7,7 @@ import '../models/recipe.dart';
 class RecipeDetail extends StatelessWidget {
   // final String id;
   final String title;
-  final List<String> ingredients = [
-    "",
-    "",
-  ];
+  final String ingredients;
   final String recipe;
   final String image;
   final String author;
@@ -19,7 +16,7 @@ class RecipeDetail extends StatelessWidget {
   RecipeDetail(
     // this.id,
     this.title,
-    // this.ingredients,
+    this.ingredients,
     this.recipe,
     this.image,
     this.author,
@@ -67,10 +64,10 @@ class RecipeDetail extends StatelessWidget {
                         maxHeight: 200,
                       ),
                       child: FittedBox(
-                        child: CircleAvatar(
-                          backgroundImage: NetworkImage(image),
-                          backgroundColor: Colors.transparent,
-                        ),
+                        child: FadeInImage.assetNetwork(
+                            placeholder: 'assets/images/demodish.jpg',
+                            image: image),
+                        // backgroundColor: Colors.transparent,
                       ),
                     ),
                   ),
@@ -123,17 +120,15 @@ class RecipeDetail extends StatelessWidget {
                             ),
                             child: Column(
                               children: ingredients
+                                  .split(",")
                                   .map(
                                     (recp) => Align(
                                       alignment: Alignment.centerLeft,
                                       child: Text(
-                                        (ingredients.indexOf(recp) + 1)
-                                                .toString() +
-                                            ". " +
-                                            recp,
+                                        "🌶 " + recp,
                                         style: TextStyle(
                                           color: Colors.grey.shade700,
-                                          fontSize: 18,
+                                          fontSize: 20,
                                         ),
                                       ),
                                     ),

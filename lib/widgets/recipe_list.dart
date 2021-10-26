@@ -169,7 +169,7 @@ class _RecipeListState extends State<RecipeList> {
                                 .map(
                                   (recData) => RecipeListContainer(
                                     recData['Title'].toString(),
-                                    // recData['Ingredients'],
+                                    recData['Ingredients'].toString(),
                                     recData['Recipe'].toString(),
                                     recData['RecipeImage'].toString(),
                                     recData['Author'].toString(),
@@ -181,7 +181,16 @@ class _RecipeListState extends State<RecipeList> {
                         ),
                       );
                     else
-                      return CircularProgressIndicator();
+                      return Container(
+                        margin: EdgeInsets.only(
+                          top: queryData.size.height * 0.13,
+                        ),
+                        child: Center(
+                          child: CircularProgressIndicator(
+                            color: Color(0xfffa4a0c),
+                          ),
+                        ),
+                      );
                   },
                 ),
               ],
