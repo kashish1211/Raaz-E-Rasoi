@@ -28,7 +28,7 @@ class _RecipeListState extends State<RecipeList> {
     });
   }
 
-  Future<void> getData(String category) async {
+  Future<Object> getData(String category) async {
     // Get docs from collection reference
 
     QuerySnapshot querySnapshot =
@@ -36,7 +36,7 @@ class _RecipeListState extends State<RecipeList> {
 
     // Get data from docs and convert map to List
     _selectedRecipes = querySnapshot.docs.map((doc) => doc.data()).toList();
-    print(_selectedRecipes);
+    return _selectedRecipes;
   }
 
   @override
@@ -156,26 +156,34 @@ class _RecipeListState extends State<RecipeList> {
                   ),
                 ),
                 SizedBox(height: queryData.size.height * 0.04),
-                Container(
-                  child: SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: _selectedRecipes
-                          .map(
-                            (recData) => RecipeListContainer(
-                              recData['Title'].toString(),
-                              // recData['Ingredients'],
-                              recData['Recipe'].toString(),
-                              recData['RecipeImage'].toString(),
-                              recData['Author'].toString(),
-                              recData['Category'].toString(),
-                            ),
-                          )
-                          .toList(),
-                    ),
-                  ),
-                )
+                FutureBuilder<Object>(
+                  future: getData(_selectedCategoryName),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.done)
+                      return Container(
+                        child: SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: _selectedRecipes
+                                .map(
+                                  (recData) => RecipeListContainer(
+                                    recData['Title'].toString(),
+                                    // recData['Ingredients'],
+                                    recData['Recipe'].toString(),
+                                    recData['RecipeImage'].toString(),
+                                    recData['Author'].toString(),
+                                    recData['Category'].toString(),
+                                  ),
+                                )
+                                .toList(),
+                          ),
+                        ),
+                      );
+                    else
+                      return CircularProgressIndicator();
+                  },
+                ),
               ],
             ),
           ),

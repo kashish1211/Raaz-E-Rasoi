@@ -66,9 +66,11 @@ class RecipeDetail extends StatelessWidget {
                         maxWidth: 200,
                         maxHeight: 200,
                       ),
-                      child: Image.asset(
-                        'assets/images/$image.png',
-                        fit: BoxFit.cover,
+                      child: FittedBox(
+                        child: CircleAvatar(
+                          backgroundImage: NetworkImage(image),
+                          backgroundColor: Colors.transparent,
+                        ),
                       ),
                     ),
                   ),
