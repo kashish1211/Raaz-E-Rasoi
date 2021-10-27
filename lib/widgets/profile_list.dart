@@ -15,14 +15,27 @@ class _ProfileListState extends State<ProfileList> {
   void getRecipeDetail(BuildContext ctx, String title, String ingredients,
       String recipe, String image, String category) {
     Navigator.of(ctx).push(MaterialPageRoute(builder: (_) {
-      return RecipeDetail(title, ingredients, recipe, image, widget.email, category);
+      return RecipeDetail(
+          title, ingredients, recipe, image, widget.email, category);
     }));
   }
 
   var _selectedRecipes = [];
-
+  var _selectedIds = [];
   CollectionReference _collectionRef =
       FirebaseFirestore.instance.collection('recipes');
+  void deleteRecipe(String id) {
+    print(id);
+    final collection = FirebaseFirestore.instance.collection('recipes');
+    collection
+        .doc(id) // <-- Doc ID to be deleted.
+        .delete() // <-- Delete
+        .then((_) => print('Deleted'))
+        .catchError((error) => print('Delete failed: $error'));
+    setState(() {
+      print("deleted");
+    });
+  }
 
   Future<Object> getData() async {
     // Get docs from collection reference
@@ -32,7 +45,9 @@ class _ProfileListState extends State<ProfileList> {
 
     // Get data from docs and convert map to List
     _selectedRecipes = querySnapshot.docs.map((doc) => doc.data()).toList();
+    _selectedIds = querySnapshot.docs.map((doc) => doc.id).toList();
     print(_selectedRecipes);
+    print(_selectedIds);
     return _selectedRecipes;
   }
 
@@ -118,7 +133,7 @@ class _ProfileListState extends State<ProfileList> {
                           Icons.delete,
                           color: Colors.red,
                         ),
-                        onPressed: () => {},
+                        onPressed: () => deleteRecipe(_selectedIds[index]),
                       ),
                     ),
                   ),
