@@ -4,8 +4,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import 'category_model.dart';
-import 'recipe_model.dart';
 import './recipe_list_container.dart';
+import './add_recipe.dart';
 
 class RecipeList extends StatefulWidget {
   @override
@@ -26,6 +26,12 @@ class _RecipeListState extends State<RecipeList> {
       _selectedCategoryName = name;
       getData(_selectedCategoryName);
     });
+  }
+
+  void addRecipe(BuildContext ctx) {
+    Navigator.of(ctx).push(MaterialPageRoute(builder: (_) {
+      return AddRecipe();
+    }));
   }
 
   Future<Object> getData(String category) async {
@@ -159,7 +165,8 @@ class _RecipeListState extends State<RecipeList> {
                 FutureBuilder<Object>(
                   future: getData(_selectedCategoryName),
                   builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.done)
+                    if (snapshot.connectionState ==
+                        ConnectionState.done) if (_selectedRecipes.length != 0)
                       return Container(
                         child: SingleChildScrollView(
                           scrollDirection: Axis.horizontal,
@@ -179,6 +186,27 @@ class _RecipeListState extends State<RecipeList> {
                                 .toList(),
                           ),
                         ),
+                      );
+                    else
+                      return Column(
+                        children: [
+                          Container(
+                            child: Image.asset(
+                              'assets/images/hungry.gif',
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                          TextButton(
+                            onPressed: () => addRecipe(context),
+                            child: Text(
+                              "Click here to add a recipe",
+                              style: TextStyle(
+                                color: Color(0xffff460a),
+                                fontSize: 20,
+                              ),
+                            ),
+                          ),
+                        ],
                       );
                     else
                       return Container(
