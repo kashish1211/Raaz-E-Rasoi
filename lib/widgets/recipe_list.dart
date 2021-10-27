@@ -43,7 +43,7 @@ class _RecipeListState extends State<RecipeList> {
   void initState() {
     super.initState();
     getData(_selectedCategoryName);
-    print("Hererere");
+    // print("Hererere");
   }
 
   @override

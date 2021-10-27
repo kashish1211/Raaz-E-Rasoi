@@ -192,7 +192,9 @@ class Profile extends StatelessWidget {
             SizedBox(height: queryData.size.height * 0.02),
 
             Container(
-                height: queryData.size.height * 0.43, child: ProfileList()),
+              height: queryData.size.height * 0.43,
+              child: ProfileList(email),
+            ),
           ],
         ),
       ),
