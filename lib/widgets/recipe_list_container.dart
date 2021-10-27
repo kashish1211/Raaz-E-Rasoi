@@ -124,9 +124,9 @@ class RecipeListContainer extends StatelessWidget {
                             width: 50,
                             height: 50,
                             placeholder: (context, url) =>
-                                CircularProgressIndicator(),
-                            imageUrl:
-                                'https://www.kindacode.com/wp-content/uploads/2020/10/sample.jpg',
+                                CircularProgressIndicator(
+                                    color: Color(0xfffa4a0c)),
+                            imageUrl: image,
                           ),
                         ),
                       ),

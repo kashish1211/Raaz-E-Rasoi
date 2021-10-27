@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 import './bottom_navbar.dart';
@@ -64,10 +65,17 @@ class RecipeDetail extends StatelessWidget {
                         maxHeight: 200,
                       ),
                       child: FittedBox(
-                        child: FadeInImage.assetNetwork(
-                            placeholder: 'assets/images/demodish.jpg',
-                            image: image),
-                        // backgroundColor: Colors.transparent,
+                        child: ClipOval(
+                          child: CachedNetworkImage(
+                            fit: BoxFit.cover,
+                            width: 50,
+                            height: 50,
+                            placeholder: (context, url) =>
+                                CircularProgressIndicator(color: Color(0xfffa4a0c)),
+                            imageUrl:image
+                                ,
+                          ),
+                        ),
                       ),
                     ),
                   ),
