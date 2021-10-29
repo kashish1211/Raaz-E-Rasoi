@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'category_model.dart';
 import './recipe_list_container.dart';
 import './add_recipe.dart';
+import 'dart:async';
 
 class RecipeList extends StatefulWidget {
   @override
@@ -13,6 +14,8 @@ class RecipeList extends StatefulWidget {
 }
 
 class _RecipeListState extends State<RecipeList> {
+  var _selectedIds = [];
+
   CollectionReference _collectionRef =
       FirebaseFirestore.instance.collection('recipes');
 
@@ -42,6 +45,7 @@ class _RecipeListState extends State<RecipeList> {
 
     // Get data from docs and convert map to List
     _selectedRecipes = querySnapshot.docs.map((doc) => doc.data()).toList();
+    _selectedIds = querySnapshot.docs.map((doc) => doc.id).toList();
     return _selectedRecipes;
   }
 
@@ -49,7 +53,14 @@ class _RecipeListState extends State<RecipeList> {
   void initState() {
     super.initState();
     getData(_selectedCategoryName);
-    // print("Hererere");
+    // var _now = DateTime.now().second.toString();
+
+    // // defines a timer
+    // var _everySecond = Timer.periodic(Duration(seconds: 1), (Timer t) {
+    //   setState(() {
+    //     _now = DateTime.now().second.toString();
+    //   });
+    // });
   }
 
   @override
@@ -173,16 +184,22 @@ class _RecipeListState extends State<RecipeList> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: _selectedRecipes
+                                .asMap()
                                 .map(
-                                  (recData) => RecipeListContainer(
-                                    recData['Title'].toString(),
-                                    recData['Ingredients'].toString(),
-                                    recData['Recipe'].toString(),
-                                    recData['RecipeImage'].toString(),
-                                    recData['Author'].toString(),
-                                    recData['Category'].toString(),
+                                  (i, recData) => MapEntry(
+                                    i,
+                                    RecipeListContainer(
+                                      _selectedIds[i],
+                                      recData['Title'].toString(),
+                                      recData['Ingredients'].toString(),
+                                      recData['Recipe'].toString(),
+                                      recData['RecipeImage'].toString(),
+                                      recData['Author'].toString(),
+                                      recData['Category'].toString(),
+                                    ),
                                   ),
                                 )
+                                .values
                                 .toList(),
                           ),
                         ),

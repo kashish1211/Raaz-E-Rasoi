@@ -13,11 +13,11 @@ class ProfileList extends StatefulWidget {
 }
 
 class _ProfileListState extends State<ProfileList> {
-  void getRecipeDetail(BuildContext ctx, String title, String ingredients,
-      String recipe, String image, String category) {
+  void getRecipeDetail(BuildContext ctx, String id, String title,
+      String ingredients, String recipe, String image, String category) {
     Navigator.of(ctx).push(MaterialPageRoute(builder: (_) {
       return RecipeDetail(
-          title, ingredients, recipe, image, widget.email, category);
+          id, title, ingredients, recipe, image, widget.email, category);
     }));
   }
 
@@ -126,6 +126,7 @@ class _ProfileListState extends State<ProfileList> {
                               TextButton(
                                 onPressed: () => getRecipeDetail(
                                   context,
+                                  _selectedIds[index],
                                   _selectedRecipes[index]['Title'],
                                   _selectedRecipes[index]['Ingredients'],
                                   _selectedRecipes[index]['Recipe'],

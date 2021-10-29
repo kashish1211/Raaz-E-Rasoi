@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:raaz_e_rasoi/widgets/favourites.dart';
 import './recipe_list.dart';
 import './profile.dart';
 import './add_recipe.dart';
@@ -27,18 +28,12 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
     RecipeList(),
     Profile(),
     AddRecipe(),
-    Center(child: CircularProgressIndicator(color: Color(0xfffa4a0c))),
+    Favourites(),
   ];
 
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
-      if (_selectedIndex == 3) {
-        FirebaseAuth.instance.signOut();
-        Navigator.of(context).push(MaterialPageRoute(builder: (_) {
-          return Header();
-        }));
-      }
     });
   }
 
@@ -67,8 +62,8 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
             title: Text('Add'),
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.logout_sharp),
-            title: Text('Logout'),
+            icon: Icon(Icons.favorite),
+            title: Text('Favourites'),
           ),
         ],
       ),

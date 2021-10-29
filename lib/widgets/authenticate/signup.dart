@@ -44,6 +44,7 @@ class _SignupState extends State<Signup> {
         {
           'FullName': _userFullname,
           'email': _userEmail,
+          'favourites':[],
         },
       );
 

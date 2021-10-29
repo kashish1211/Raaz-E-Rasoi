@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:raaz_e_rasoi/widgets/authenticate/header.dart';
 import 'package:raaz_e_rasoi/widgets/profile_list.dart';
 
 class Profile extends StatelessWidget {
@@ -11,6 +12,13 @@ class Profile extends StatelessWidget {
     final User? user = auth.currentUser;
     uid = user!.uid;
     email = user.email!;
+  }
+
+  void _logout(BuildContext context) {
+    FirebaseAuth.instance.signOut();
+    Navigator.of(context).push(MaterialPageRoute(builder: (_) {
+      return Header();
+    }));
   }
 
   @override
@@ -68,13 +76,13 @@ class Profile extends StatelessWidget {
                     alignment: Alignment.centerLeft,
                     child: TextButton(
                       child: Text(
-                        "Change",
+                        "Logout",
                         style: TextStyle(
                           color: Color(0xfffa4a0c),
                           fontSize: 16,
                         ),
                       ),
-                      onPressed: () => {},
+                      onPressed: () => _logout(context),
                     ),
                   ),
                 ),

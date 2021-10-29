@@ -3,7 +3,7 @@ import './recipe_detail.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
 class RecipeListContainer extends StatelessWidget {
-  // final String id;
+  final String id;
   final String title;
   final String ingredients;
   final String recipe;
@@ -12,6 +12,7 @@ class RecipeListContainer extends StatelessWidget {
   final String category;
 
   RecipeListContainer(
+    this.id,
     this.title,
     this.ingredients,
     this.recipe,
@@ -24,7 +25,8 @@ class RecipeListContainer extends StatelessWidget {
     BuildContext ctx,
   ) {
     Navigator.of(ctx).push(MaterialPageRoute(builder: (_) {
-      return RecipeDetail(title, ingredients, recipe, image, author, category);
+      return RecipeDetail(
+          id, title, ingredients, recipe, image, author, category);
     }));
   }
 
