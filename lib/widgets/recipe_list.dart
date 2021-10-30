@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:raaz_e_rasoi/widgets/search.dart';
 
 import 'category_model.dart';
 import './recipe_list_container.dart';
@@ -15,6 +16,7 @@ class RecipeList extends StatefulWidget {
 
 class _RecipeListState extends State<RecipeList> {
   var _selectedIds = [];
+  final _searchController = TextEditingController();
 
   CollectionReference _collectionRef =
       FirebaseFirestore.instance.collection('recipes');
@@ -22,6 +24,17 @@ class _RecipeListState extends State<RecipeList> {
   var _selectedCategory = 'c1';
   var _selectedCategoryName = 'Italian';
   var _selectedRecipes = [];
+
+  void _submitData(BuildContext ctx) {
+    final _submitSearch = _searchController.text;
+
+    if (_submitSearch.isEmpty) {
+      return;
+    }
+    Navigator.of(ctx).push(MaterialPageRoute(builder: (_) {
+      return Search(_submitSearch);
+    }));
+  }
 
   void _onCategoryTap(String id, String name) {
     setState(() {
@@ -53,14 +66,6 @@ class _RecipeListState extends State<RecipeList> {
   void initState() {
     super.initState();
     getData(_selectedCategoryName);
-    // var _now = DateTime.now().second.toString();
-
-    // // defines a timer
-    // var _everySecond = Timer.periodic(Duration(seconds: 1), (Timer t) {
-    //   setState(() {
-    //     _now = DateTime.now().second.toString();
-    //   });
-    // });
   }
 
   @override
@@ -102,11 +107,14 @@ class _RecipeListState extends State<RecipeList> {
                   padding: EdgeInsets.symmetric(
                       horizontal: queryData.size.width * 0.13),
                   child: TextField(
+                    controller: _searchController,
+                    onSubmitted: (_) => _submitData(context),
                     cursorColor: const Color(0xfffa4a0c),
                     decoration: InputDecoration(
-                      prefixIcon: Icon(
-                        Icons.search,
+                      prefixIcon: IconButton(
+                        icon: Icon(Icons.search),
                         color: Colors.black,
+                        onPressed: () => _submitData(context),
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderSide: BorderSide(color: const Color(0xfffa4a0c)),
