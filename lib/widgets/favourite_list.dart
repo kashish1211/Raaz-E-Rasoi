@@ -23,6 +23,7 @@ class _FavouriteListState extends State<FavouriteList> {
   }
 
   var uid = "";
+  var isNull = false;
   var _selectedRecipes = [];
   var _selectedIds = [];
   List favouriteList = [];
@@ -41,40 +42,46 @@ class _FavouriteListState extends State<FavouriteList> {
         )
         .get();
     _selectedRecipes = querySnapshot.docs.map((doc) => doc.data()).toList();
+
     _selectedIds = querySnapshot.docs.map((doc) => doc.id).toList();
-    
+    isNull = _selectedRecipes.length == 0;
+
     return _selectedRecipes;
   }
+
   void _removefavourite(BuildContext ctx, recipe_id) {
-      
     FirebaseFirestore.instance.collection('users').doc(uid).update({
       'favourites': FieldValue.arrayRemove([recipe_id]),
-    }).then((_) => setState(() {
-        print("removeeddd.. ");
-      ScaffoldMessenger.of(ctx).showSnackBar(
-        SnackBar(
-          content: Text("Removed from favourites."),
-          backgroundColor: Colors.red,
-        ),
-      );
-    },),);
-    
-    
+    }).then(
+      (_) => setState(
+        () {
+          if (_selectedRecipes.length == 1) {
+            isNull = true;
+          }
+          print("removeeddd.. ");
+          ScaffoldMessenger.of(ctx).showSnackBar(
+            SnackBar(
+              content: Text("Removed from favourites."),
+              backgroundColor: Colors.red,
+            ),
+          );
+        },
+      ),
+    );
   }
-
 
   void getUID() {
     final User? user = auth.currentUser;
     uid = user!.uid;
     fetchAllFavourite();
   }
+
   @override
   void initState() {
     super.initState();
     fetchAllFavourite();
     // print("Hererere");
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -85,8 +92,7 @@ class _FavouriteListState extends State<FavouriteList> {
       body: FutureBuilder<Object>(
         future: fetchAllFavourite(),
         builder: (context, snapshot) {
-          if (snapshot.connectionState ==
-              ConnectionState.done) if (_selectedRecipes.length != 0)
+          if (snapshot.connectionState == ConnectionState.done) if (!isNull)
             return Container(
               child: ListView.builder(
                 itemBuilder: (ctx, index) {
@@ -151,14 +157,16 @@ class _FavouriteListState extends State<FavouriteList> {
                           ),
                         ),
                         trailing: IconButton(
-                            icon: Icon(
-                              Icons.delete,   
-                              color: Colors.red,
-                            ),
-                            onPressed: () => _removefavourite(context,_selectedIds[index]),
+                          icon: Icon(
+                            Icons.delete,
+                            color: Colors.red,
+                          ),
+                          onPressed: () =>
+                              _removefavourite(context, _selectedIds[index]),
+                        ),
                       ),
                     ),
-                  ),);
+                  );
                 },
                 itemCount: _selectedRecipes.length,
               ),
