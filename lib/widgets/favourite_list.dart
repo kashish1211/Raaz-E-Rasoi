@@ -94,6 +94,9 @@ class _FavouriteListState extends State<FavouriteList> {
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done) if (!isNull)
             return Container(
+              decoration: BoxDecoration(
+                color: Color(0xfff2f2f2),
+              ),
               child: ListView.builder(
                 itemBuilder: (ctx, index) {
                   return Container(
@@ -172,19 +175,24 @@ class _FavouriteListState extends State<FavouriteList> {
               ),
             );
           else
-            return ListView(
-              children: [
-                Column(
-                  children: [
-                    Container(
-                      child: Image.asset(
-                        'assets/images/hungry.gif',
-                        fit: BoxFit.cover,
+            return Container(
+              decoration: BoxDecoration(
+                color: Color(0xfff2f2f2),
+              ),
+              child: ListView(
+                children: [
+                  Column(
+                    children: [
+                      Container(
+                        child: Image.asset(
+                          'assets/images/hungry.gif',
+                          fit: BoxFit.cover,
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-              ],
+                    ],
+                  ),
+                ],
+              ),
             );
           else
             return Container(

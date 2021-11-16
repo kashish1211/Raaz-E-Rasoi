@@ -2,11 +2,14 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:raaz_e_rasoi/widgets/recipe_detail.dart';
+import 'package:raaz_e_rasoi/widgets/profile.dart';
 import './add_recipe.dart';
 
 class ProfileList extends StatefulWidget {
   var email = "";
-  ProfileList(this.email);
+  final Function() notifyParent;
+
+  ProfileList(this.notifyParent, this.email);
 
   @override
   State<ProfileList> createState() => _ProfileListState();
@@ -32,7 +35,6 @@ class _ProfileListState extends State<ProfileList> {
   CollectionReference _collectionRef =
       FirebaseFirestore.instance.collection('recipes');
   void deleteRecipe(String id, BuildContext ctx) {
-    print(id);
     final collection = FirebaseFirestore.instance.collection('recipes');
     collection
         .doc(id) // <-- Doc ID to be deleted.
@@ -40,6 +42,7 @@ class _ProfileListState extends State<ProfileList> {
         .then((_) => print('Deleted'))
         .catchError((error) => print('Delete failed: $error'));
     setState(() {
+      widget.notifyParent();
       print("deleted");
     });
 
@@ -60,8 +63,7 @@ class _ProfileListState extends State<ProfileList> {
     // Get data from docs and convert map to List
     _selectedRecipes = querySnapshot.docs.map((doc) => doc.data()).toList();
     _selectedIds = querySnapshot.docs.map((doc) => doc.id).toList();
-    print(_selectedRecipes);
-    print(_selectedIds);
+
     return _selectedRecipes;
   }
 
@@ -69,7 +71,6 @@ class _ProfileListState extends State<ProfileList> {
   void initState() {
     super.initState();
     getData();
-    // print("Hererere");
   }
 
   @override
@@ -83,7 +84,11 @@ class _ProfileListState extends State<ProfileList> {
           if (snapshot.connectionState ==
               ConnectionState.done) if (_selectedRecipes.length != 0)
             return Container(
+              decoration: BoxDecoration(
+                color: Color(0xfff2f2f2),
+              ),
               child: ListView.builder(
+                physics: BouncingScrollPhysics(),
                 itemBuilder: (ctx, index) {
                   return Container(
                     height: queryData.size.height * 0.15,
@@ -119,7 +124,7 @@ class _ProfileListState extends State<ProfileList> {
                                 _selectedRecipes[index]['Title'],
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
-                                  fontSize: 16,
+                                  fontSize: 14,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),

@@ -192,7 +192,7 @@ class _AddRecipeState extends State<AddRecipe> {
                             'Chinese',
                             'Cocktails',
                             'Starters',
-                            'Deserts',
+                            'Desserts',
                           ].map<DropdownMenuItem<String>>((String value) {
                             return DropdownMenuItem<String>(
                               value: value,

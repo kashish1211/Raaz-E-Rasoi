@@ -135,6 +135,7 @@ class _RecipeListState extends State<RecipeList> {
                       left: queryData.size.width * 0.06),
                   child: SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
+                    physics: BouncingScrollPhysics(),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: DUMMY_CATEGORIES

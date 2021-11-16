@@ -19,4 +19,16 @@ const DUMMY_CATEGORIES = const [
     id: 'c4',
     category: 'Mexican',
   ),
+  Category(
+    id: 'c5',
+    category: 'Cocktails',
+  ),
+  Category(
+    id: 'c6',
+    category: 'Starters',
+  ),
+  Category(
+    id: 'c7',
+    category: 'Desserts',
+  ),
 ];

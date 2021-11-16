@@ -67,6 +67,9 @@ class _SearchListState extends State<SearchList> {
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done) if (!isNull)
             return Container(
+              decoration: BoxDecoration(
+                color: Color(0xfff2f2f2),
+              ),
               child: ListView.builder(
                 itemBuilder: (ctx, index) {
                   return Container(

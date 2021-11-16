@@ -4,10 +4,18 @@ import 'package:flutter/material.dart';
 import 'package:raaz_e_rasoi/widgets/authenticate/header.dart';
 import 'package:raaz_e_rasoi/widgets/profile_list.dart';
 
-class Profile extends StatelessWidget {
+class Profile extends StatefulWidget {
+  @override
+  State<Profile> createState() => _ProfileState();
+}
+
+class _ProfileState extends State<Profile> {
   final FirebaseAuth auth = FirebaseAuth.instance;
+
   var uid = "";
+
   var email = "";
+
   void getUID() {
     final User? user = auth.currentUser;
     uid = user!.uid;
@@ -21,11 +29,33 @@ class Profile extends StatelessWidget {
     }));
   }
 
+  var _selectedRecipes = [];
+
+  CollectionReference _collectionRef =
+      FirebaseFirestore.instance.collection('recipes');
+
+  Future<Object> getData() async {
+    // Get docs from collection reference
+
+    QuerySnapshot querySnapshot =
+        await _collectionRef.where('Author', isEqualTo: email).get();
+
+    // Get data from docs and convert map to List
+    _selectedRecipes = querySnapshot.docs.map((doc) => doc.data()).toList();
+
+    return _selectedRecipes;
+  }
+
+  refresh() {
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     MediaQueryData queryData;
     queryData = MediaQuery.of(context);
     getUID();
+    getData();
     return Material(
       child: Container(
         decoration: BoxDecoration(
@@ -172,25 +202,33 @@ class Profile extends StatelessWidget {
                       left: queryData.size.width * 0.08,
                       right: queryData.size.width * 0.08,
                     ),
-                    // decoration: BoxDecoration(
-                    //   border: Border(
-                    //     bottom: BorderSide(
-                    //       color: Colors.black,
-                    //       width: 1.0, // Underline thickness
-                    //     ),
-                    //   ),
-                    // ),
                     child: Align(
                       alignment: Alignment.center,
                       child: Opacity(
                         opacity: 0.50,
-                        child: Text(
-                          "Shared 5 recipes",
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 14,
-                          ),
+                        child: FutureBuilder<Object>(
+                          future: getData(),
+                          builder: (context, snapshot) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              return Text('Loading..');
+                            }
+                            return Text(
+                              "Shared ${_selectedRecipes.length} recipes",
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 14,
+                              ),
+                            );
+                          },
                         ),
+                        // child: Text(
+                        //   "Shared ${_selectedRecipes.length} recipes",
+                        //   style: TextStyle(
+                        //     color: Colors.black,
+                        //     fontSize: 14,
+                        //   ),
+                        // ),
                       ),
                     ),
                   ),
@@ -201,7 +239,7 @@ class Profile extends StatelessWidget {
 
             Container(
               height: queryData.size.height * 0.43,
-              child: ProfileList(email),
+              child: ProfileList(refresh, email),
             ),
           ],
         ),

@@ -50,7 +50,10 @@ class Search extends StatelessWidget {
             ),
             SizedBox(height: queryData.size.height * 0.03),
             Container(
-              height: queryData.size.height * 0.43,
+              decoration: BoxDecoration(
+                color: Color(0xfff2f2f2),
+              ),
+              height: queryData.size.height * 0.7,
               child: SearchList(searchKey),
             ),
           ],

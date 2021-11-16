@@ -12,7 +12,6 @@ class Favourites extends StatefulWidget {
 }
 
 class _FavouritesState extends State<Favourites> {
-
   final FirebaseAuth auth = FirebaseAuth.instance;
   var uid = "";
   var email = "";
@@ -21,6 +20,7 @@ class _FavouritesState extends State<Favourites> {
     uid = user!.uid;
     email = user.email!;
   }
+
   @override
   Widget build(BuildContext context) {
     MediaQueryData queryData;
@@ -49,9 +49,9 @@ class _FavouritesState extends State<Favourites> {
           ),
           SizedBox(height: queryData.size.height * 0.03),
           Container(
-              height: queryData.size.height * 0.43,
-              child: FavouriteList(email),
-            ),
+            height: queryData.size.height * 0.73,
+            child: FavouriteList(email),
+          ),
         ],
       ),
     );
