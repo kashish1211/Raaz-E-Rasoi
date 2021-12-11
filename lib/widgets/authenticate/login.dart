@@ -134,20 +134,7 @@ class _LoginState extends State<Login> {
                         // onSubmitted: (_) => {},
                       ),
                       SizedBox(height: queryData.size.height * 0.01),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          TextButton(
-                            child: Text(
-                              'Forgot Password?',
-                              style: TextStyle(
-                                color: Color(0xffff460a),
-                              ),
-                            ),
-                            onPressed: () => {},
-                          ),
-                        ],
-                      ),
+                      
                       SizedBox(height: queryData.size.height * 0.08),
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(
